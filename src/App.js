@@ -1,25 +1,64 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState } from 'react'
+import './App.css'
+import Contacts from './contacts.json'
+
 
 function App() {
+
+
+  // Selecciona 5 contactos
+  let contactsCopy = [...Contacts]
+
+  const [contactValue, setContactValue] = useState(contactsCopy)
+
+  let contact = contactsCopy.slice(0, 5)
+
+
+
+
+  // Añade 1 contacto random
+  const addRandom = () => {
+
+    let randomNum = Math.floor(Math.random() * (Contacts.length) + 4)
+    let randomContact = Contacts[randomNum]
+
+    contact.push(randomContact)
+
+    setContactValue(contact)
+  }
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+
+      <h1>IronContacts</h1>
+      <button onClick={() => addRandom()}>Add random contact</button>
+
+      <table className="tableActors">
+
+        <thead>
+          <th>Picture</th>
+          <th>Name</th>
+          <th>Popularity</th>
+          <th>Won Oscar</th>
+          <th>Won Emmy</th>
+        </thead>
+
+        {contactValue.map(elm => {
+          return (
+            <tbody key={elm.id}>
+              <td><img src={elm.pictureUrl} /></td>
+              <td>{elm.name}</td>
+              <td>{elm.popularity}</td>
+              <td>{elm.wonOscar ? '🏆' : ''}</td>
+              <td>{elm.wonEmmy ? '🏆' : ''}</td>
+            </tbody>
+          )
+        })}
+
+      </table>
+
     </div>
-  );
+  )
 }
 
-export default App;
+export default App
